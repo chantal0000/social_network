@@ -1,3 +1,9 @@
 body {
-    background-color: ghostwhite;
+    background-color: violet;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.logo {
+    width: 130px;
+    height: 130px;
 }
