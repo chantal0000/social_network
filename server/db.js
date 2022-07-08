@@ -18,3 +18,13 @@ module.exports.addUser = (first, last, email, password) => {
     const param = [first, last, email, password];
     return db.query(q, param);
 };
+
+// login user
+
+module.exports.login = (email) => {
+    const q = `SELECT password, id 
+               FROM users 
+               WHERE email = $1`;
+    const param = [email];
+    return db.query(q, param);
+};

@@ -1,10 +1,7 @@
-// function or class-component?
-// we will use state so we choose class component
-
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class Registration extends Component {
+export default class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -15,8 +12,10 @@ export default class Registration extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(e) {
-        // console.log("handleChange is running, user is changing inputfield");
-        // console.log(e.target.value);
+        console.log(
+            "LOGIN handleChange is running, user is changing inputfield"
+        );
+        console.log(e.target.value);
         // add this to state
         this.setState(
             {
@@ -27,9 +26,9 @@ export default class Registration extends Component {
         );
     }
     handleSubmit(e) {
-        console.log("handleSubmit ");
+        console.log("handleSubmit");
         //register.json
-        fetch("/register", {
+        fetch("/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -38,14 +37,15 @@ export default class Registration extends Component {
         })
             .then((resp) => resp.json())
             .then((data) => {
-                console.log("data from POST / register.json", data);
+                console.log("data from POST / login.json", data);
                 // if registration was NOT successful --> render err conditionally
                 if (data.error) {
+                    // data.error
                     this.setState({ error: true });
                 } else {
                     // - if true..., do that
                     // if registration was successful --> later...
-                    console.log("registration successful");
+                    console.log("login successful");
                     location.reload();
                 }
             })
@@ -57,25 +57,13 @@ export default class Registration extends Component {
     render() {
         return (
             <div>
-                <h1>welcome to this network</h1>
+                <h1>LOOOOOOGIN</h1>
                 {this.state.error && (
-                    <p className="err">Smth went wrong! try again PLEASE!</p>
+                    <p className="err">Smth went wrong! LOGIN!</p>
                 )}
 
-                <h1>this is the registration component</h1>
-                <input
-                    onChange={this.handleChange}
-                    name="first"
-                    placeholder="First Name"
-                    type="text"
-                ></input>
-                <input
-                    // if you don't bind "THIS" above you can use onChange={(e) => this.handleChange(e)}
-                    onChange={this.handleChange}
-                    name="last"
-                    placeholder="Last Name"
-                    type="text"
-                ></input>
+                <h1>this is the login component</h1>
+
                 <input
                     onChange={this.handleChange}
                     name="email"
@@ -88,9 +76,9 @@ export default class Registration extends Component {
                     placeholder="Password"
                     type="password"
                 ></input>
-                <button onClick={this.handleSubmit}>Register</button>
+                <button onClick={this.handleSubmit}>Log in</button>
                 <p>
-                    already a member? <Link to="/login">Log in</Link>
+                    not a member? <Link to="/">register</Link>
                 </p>
             </div>
         );

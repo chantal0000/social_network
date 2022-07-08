@@ -28,6 +28,7 @@ app.use(
     cookieSession({
         secret: COOKIE_SECRET,
         maxAge: 1000 * 60 * 60 * 24 * 14,
+        sameSite: true,
     })
 );
 
@@ -48,9 +49,9 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-///
-
-// app.post("register")
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///REGISTER/////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post("/register", (req, res) => {
     // call the bcrypt.hash function and pass it the password from req.body
     bcrypt
@@ -72,6 +73,39 @@ app.post("/register", (req, res) => {
             console.log("err /register", err);
         });
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///LOGIN////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/login", (req, res) => {
+    console.log("email", req.body.email);
+    db.login(req.body.email)
+        .then((results) => {
+            console.log(results.rows[0].password);
+            if (results.rows[0]) {
+                return bcrypt
+                    .compare(req.body.password, results.rows[0].password)
+                    .then(function (pwCompare) {
+                        if (pwCompare) {
+                            req.session.login = true;
+                            req.session.user_id = results.rows[0].id;
+                            res.json({ success: true });
+                        } else {
+                            res.json({ success: false });
+                        }
+                    });
+            } else {
+                res.json({ success: false });
+            }
+        })
+        .catch((err) => {
+            res.json({ error: err });
+        });
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
