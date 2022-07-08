@@ -80,6 +80,10 @@ export default class Login extends Component {
                 <p>
                     not a member? <Link to="/">register</Link>
                 </p>
+                <p>
+                    forgot your password?{" "}
+                    <Link to="/reset">reset password</Link>
+                </p>
             </div>
         );
     }

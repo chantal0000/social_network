@@ -12,6 +12,7 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
+import Reset from "./reset";
 
 export default function Welcome() {
     return (
@@ -25,6 +26,9 @@ export default function Welcome() {
                     </Route>
                     <Route path="/login">
                         <Login />
+                    </Route>
+                    <Route path="/reset">
+                        <Reset />
                     </Route>
                 </div>
             </BrowserRouter>
