@@ -26,7 +26,7 @@ export default class Reset extends Component {
                         name="email"
                         placeholder="E-Mail"
                         type="e-mail"
-                    ></input>
+                    />
                     <button onClick={this.passwordReset}>Send</button>
                     <p>
                         just kidding, I know my password! go back to:
@@ -42,16 +42,16 @@ export default class Reset extends Component {
                     </h1>
                     <input
                         onChange={this.handleChange}
-                        name="reset-code"
+                        name="reset_code"
                         placeholder="reset-code"
                         type="text"
-                    ></input>
+                    />
                     <input
                         onChange={this.handleChange}
                         name="new-password"
                         placeholder="New Password"
                         type="password"
-                    ></input>
+                    />
                     <button onClick={this.newPassword}>Send</button>
                 </div>
             );
@@ -83,7 +83,7 @@ export default class Reset extends Component {
         );
     }
     // two methods not handelsubmit but like new pw
-    passwordReset(e) {
+    passwordReset() {
         // should i send email somewhere here?
         console.log("passwordReset");
         //register.json
@@ -109,11 +109,11 @@ export default class Reset extends Component {
                     console.log("reset successful");
                     // update.state
                     // this.setState update
-                    this.setState = { view: 2 };
+                    this.setState({ error: false, view: 2 });
                 }
             })
-            .catch((err) => {
-                console.log("error", err);
+            .catch((error) => {
+                console.log("error in passwordReset", error);
                 this.setState({ error: true });
             });
     }
@@ -139,7 +139,7 @@ export default class Reset extends Component {
                     // if registration was successful --> later...
                     console.log("reset successful");
                     //or just reload?
-                    this.setState = { view: 3 };
+                    this.setState({ view: 3 });
                 }
             })
             .catch((err) => {

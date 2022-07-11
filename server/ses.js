@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "production") {
 
 const ses = new aws.SES({
     accessKeyId: secrets.AWS_KEY,
-    secretAccessKey: secrets.AWS.SECRET,
+    secretAccessKey: secrets.AWS_SECRET,
     region: "eu-west-1",
 });
 
@@ -23,11 +23,11 @@ exports.sendEmail = (recipient, message, subject) => {
             Message: {
                 Body: {
                     Text: {
-                        Data: message,
+                        Data: `your code is ${message}`,
                     },
                 },
                 Subject: {
-                    Data: subject,
+                    Data: "reset your password",
                 },
             },
         })

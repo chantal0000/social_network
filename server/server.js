@@ -5,6 +5,8 @@ const path = require("path");
 const db = require("./db");
 const cookieSession = require("cookie-session");
 const bcrypt = require("./bcrypt");
+const cryptoRandomString = require("crypto-random-string");
+const { sendEmail } = require("./ses");
 
 // ///
 const COOKIE_SECRET =
@@ -109,9 +111,47 @@ app.post("/login", (req, res) => {
 
 app.post("/password/reset/start", (req, res) => {
     console.log("email", req.body.email);
-    db.login;
+    db.login(req.body.email)
+        .then((results) => {
+            console.log("results", results);
+            if (results.rowCount === 0) {
+                res.json({
+                    success: false,
+                    error: true,
+                });
+            } else {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                console.log("my secret Code", secretCode);
+                db.safeCode(req.body.email, secretCode)
+                    .then(
+                        (results) =>
+                            console.log("email and code stored, yay!", results),
+                        sendEmail(req.body.email, secretCode),
+                        res.json({
+                            success: true,
+                            error: false,
+                        })
+                    )
+                    .catch((error) => {
+                        console.log("/password/reset/start error", error);
+                        res.json({
+                            sucess: false,
+                            error: true,
+                        });
+                    });
+            }
+        })
+        .catch((error) => {
+            res.json({
+                success: false,
+                error: true,
+            });
+        });
 
     // Confirm that there is a user with the submitted email address
+    // check the db for this email address
 
     // Generate a secret code and store it so it can be retrieved later
 
@@ -120,6 +160,17 @@ app.post("/password/reset/start", (req, res) => {
 
 app.post("/password/reset/verify", (req, res) => {
     console.log("verify");
+    db.compare(req.body.email).then((results) => {
+        //wie finde ich den code 1 raus?
+        console.log("code1", results.rows[results.rows.length - 1].code);
+        console.log("code2", req.body.reset_code);
+        if (
+            req.body.reset_code === results.rows[results.rows.length - 1].code
+        ) {
+            console.log("it's a match");
+            //create new PW
+        }
+    });
 
     // Confirm that there is a user with the submitted email address
 
