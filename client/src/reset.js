@@ -48,7 +48,7 @@ export default class Reset extends Component {
                     />
                     <input
                         onChange={this.handleChange}
-                        name="new-password"
+                        name="new_password"
                         placeholder="New Password"
                         type="password"
                     />

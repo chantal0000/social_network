@@ -94,15 +94,18 @@ app.post("/login", (req, res) => {
                             req.session.user_id = results.rows[0].id;
                             res.json({ success: true });
                         } else {
-                            res.json({ success: false });
+                            console.log("smth went wrong");
+                            res.json({ success: false, error: true });
                         }
                     });
             } else {
-                res.json({ success: false });
+                console.log("smth went wrong");
+                res.json({ success: false, error: true });
             }
         })
         .catch((err) => {
-            res.json({ error: err });
+            console.log("wrong", err);
+            res.json({ error: true, succes: false });
         });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,19 +152,11 @@ app.post("/password/reset/start", (req, res) => {
                 error: true,
             });
         });
-
-    // Confirm that there is a user with the submitted email address
-    // check the db for this email address
-
-    // Generate a secret code and store it so it can be retrieved later
-
-    // Put the secret code into an email message and send it to the user
 });
 
 app.post("/password/reset/verify", (req, res) => {
     console.log("verify");
     db.compare(req.body.email).then((results) => {
-        //wie finde ich den code 1 raus?
         console.log("code1", results.rows[results.rows.length - 1].code);
         console.log("code2", req.body.reset_code);
         if (
@@ -169,6 +164,36 @@ app.post("/password/reset/verify", (req, res) => {
         ) {
             console.log("it's a match");
             //create new PW
+            bcrypt
+                .hash(req.body.new_password)
+                .then((hash) => {
+                    db.newPassword(hash, req.body.email)
+                        .then((results) => {
+                            // req.session.login = true;
+
+                            console.log(
+                                "you updated the password in db",
+                                results
+                            );
+                            //redirect to profile page
+                            // res.redirect("/profile");
+                            req.session.user_id = results.rows[0].id;
+                            res.json({ success: true, error: false });
+                        })
+                        .catch((err) => {
+                            console.log("error", err);
+                            res.json({ error: err });
+                        });
+                })
+                .catch((err) => {
+                    console.log("err /save reset pw", err);
+                });
+        } else {
+            console.log("error in matching emails");
+            res.json({
+                success: false,
+                error: true,
+            });
         }
     });
 

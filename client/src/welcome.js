@@ -1,14 +1,3 @@
-// function component
-// import Registration from "./registration";
-
-// export default function Welcome() {
-//     return (
-//         <div>
-//             <Registration />
-//         </div>
-//     );
-// }
-
 import { BrowserRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";

@@ -10,7 +10,7 @@ export default function Profilepic({ first, last, imageUrl }) {
                 This is the presentational componet. My name is {first}
                 and my last name is {last}
             </h2>
-            <img className="profile-pic" src={imageUrl} alt="Layla Arias" />
+            <img className="profile-pic" src={imageUrl} alt={(first, last)} />
         </div>
     );
 }
