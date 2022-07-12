@@ -7,6 +7,9 @@ const cookieSession = require("cookie-session");
 const bcrypt = require("./bcrypt");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
 
 // ///
 const COOKIE_SECRET =
@@ -205,8 +208,68 @@ app.post("/password/reset/verify", (req, res) => {
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////UPLOAD PROFILE IMG////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+// app.get("/img/:imgId", (req, res) => {
+//     const id = req.params.imgId;
+//     console.log("req.params", req.params);
+//     console.log("req.params.id", req.params.imgId);
+//     //  db.getImgById(req.params.id).then((results) => {
+//     db.getImgById(id).then((results) => {
+//         console.log("result after getImgWithId", results.rows[0]);
+//         res.json(results.rows[0]);
+//     });
+// });
+
+const storage = multer.diskStorage({
+    destination(req, file, callback) {
+        callback(null, path.join(__dirname, "uploads"));
+    },
+    filename(req, file, callback) {
+        uidSafe(24).then((randomString) => {
+            // callback(null, `${randomString}.jpg`);
+            callback(null, `${randomString}${path.extname(file.originalname)}`);
+        });
+    },
+});
+
+// uploader = multer({ storage: storage });
+const upload = multer({
+    storage,
+    limits: { fileSize: 2097152 },
+});
+///////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+
+app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
+    console.log("in upload");
+    // console.log("https://s3.amazonaws.com/spicedling/" + req.file.filename);
+    const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
+
+    // console.log("this will be containi...........")
+    console.log("url", url);
+    console.log("id", req.session.user_id);
+    db.uploadImage(url, req.session.user_id)
+
+        .then((results) => {
+            console.log("MYrows:", results.rows);
+            res.json({
+                data: results.rows[0].url,
+                // tempAnswer: true,
+                // success: true,
+                // payload: results.rows[0],
+            });
+            //WHAT GOES IN HEERE?
+        })
+        .catch((err) => {
+            console.log("error uploadng", err);
+        });
+});
+
+//////////////////////////////////////////////////
 
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");

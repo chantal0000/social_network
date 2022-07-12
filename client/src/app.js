@@ -14,6 +14,7 @@ export default class App extends Component {
             uploaderIsVisible: false,
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.onUrlChange = this.onUrlChange.bind(this);
     }
     componentDidMount() {
         console.log("App mounted");
@@ -26,9 +27,14 @@ export default class App extends Component {
         });
     }
 
-    methodInApp(arg) {
-        console.log("method is running in app and argument is passend:", arg);
+    onUrlChange(newUrl) {
+        console.log(
+            "method is running in app and argument is passend:",
+            newUrl
+        );
+        this.setState({ imageUrl: newUrl });
     }
+
     render() {
         return (
             <div>
@@ -40,7 +46,9 @@ export default class App extends Component {
                     imageUrl={this.state.imageUrl}
                     modalCallback={this.toggleModal}
                 />
-                {this.state.uploaderIsVisible && <Uploader />}
+                {this.state.uploaderIsVisible && (
+                    <Uploader onUrlChange={this.onUrlChange} />
+                )}
             </div>
         );
     }

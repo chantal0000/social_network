@@ -54,3 +54,13 @@ module.exports.newPassword = (password, email) => {
     const param = [password, email];
     return db.query(q, param);
 };
+
+module.exports.uploadImage = (url, id) => {
+    const query = `
+    UPDATE users
+    SET url = $1
+    WHERE id = $2
+    RETURNING url`;
+    const param = [url, id];
+    return db.query(query, param);
+};
