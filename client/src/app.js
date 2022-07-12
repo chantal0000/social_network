@@ -8,8 +8,8 @@ export default class App extends Component {
     constructor() {
         super();
         this.state = {
-            first: "Layla",
-            last: "Arias",
+            first: "",
+            last: "",
             imageUrl: "",
             uploaderIsVisible: false,
         };
@@ -17,7 +17,19 @@ export default class App extends Component {
         this.onUrlChange = this.onUrlChange.bind(this);
     }
     componentDidMount() {
-        console.log("App mounted");
+        console.log("App mounted1");
+        // GET REQUEST TO SERVER first, Last, url
+        // query in the server
+        fetch("/user")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("data in app.js", data);
+                this.setState({
+                    first: data.userInfo.first,
+                    last: data.userInfo.last,
+                    imageUrl: data.userInfo.url,
+                });
+            });
     }
     toggleModal() {
         console.log(" img toggleModal ist running");
@@ -32,7 +44,7 @@ export default class App extends Component {
             "method is running in app and argument is passend:",
             newUrl
         );
-        this.setState({ imageUrl: newUrl });
+        this.setState({ imageUrl: newUrl, uploaderIsVisible: false });
     }
 
     render() {

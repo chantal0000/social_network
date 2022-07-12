@@ -50,10 +50,6 @@ app.get("/logout", (req, res) => {
     res.redirect("/login");
 });
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-});
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///REGISTER/////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -210,18 +206,6 @@ app.post("/password/reset/verify", (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////UPLOAD PROFILE IMG////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////
-
-// app.get("/img/:imgId", (req, res) => {
-//     const id = req.params.imgId;
-//     console.log("req.params", req.params);
-//     console.log("req.params.id", req.params.imgId);
-//     //  db.getImgById(req.params.id).then((results) => {
-//     db.getImgById(id).then((results) => {
-//         console.log("result after getImgWithId", results.rows[0]);
-//         res.json(results.rows[0]);
-//     });
-// });
 
 const storage = multer.diskStorage({
     destination(req, file, callback) {
@@ -259,7 +243,7 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
             res.json({
                 data: results.rows[0].url,
                 // tempAnswer: true,
-                // success: true,
+                success: true,
                 // payload: results.rows[0],
             });
             //WHAT GOES IN HEERE?
@@ -268,8 +252,24 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
             console.log("error uploadng", err);
         });
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////UPLOAD PROFILE IMG/ INFO////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.get("/user", (req, res) => {
+    console.log("i am in user");
+    db.getProfile(req.session.user_id).then((results) => {
+        console.log("results user_id, get ingo", results);
+        res.json({
+            userInfo: results.rows[0],
+        });
+    });
+});
 //////////////////////////////////////////////////
+
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+});
 
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");

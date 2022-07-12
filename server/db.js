@@ -45,7 +45,7 @@ module.exports.compare = (email) => {
     const param = [email];
     return db.query(q, param);
 };
-
+//safe new password
 module.exports.newPassword = (password, email) => {
     const q = `UPDATE users
     SET password = $1
@@ -54,7 +54,7 @@ module.exports.newPassword = (password, email) => {
     const param = [password, email];
     return db.query(q, param);
 };
-
+// upload new profile pic
 module.exports.uploadImage = (url, id) => {
     const query = `
     UPDATE users
@@ -63,4 +63,12 @@ module.exports.uploadImage = (url, id) => {
     RETURNING url`;
     const param = [url, id];
     return db.query(query, param);
+};
+//get users information
+module.exports.getProfile = (id) => {
+    return db.query(
+        `SELECT first, last, url 
+    FROM users WHERE id=$1`,
+        [id]
+    );
 };
