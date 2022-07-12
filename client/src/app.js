@@ -35,15 +35,11 @@ export default class App extends Component {
                 <h1>App says hello ggg</h1>
                 <Logo />
                 <Profilepic
-                // first={this.state.first}
-                // last={this.state.last}
-                // imageUrl={this.state.imageUrl}
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                    modalCallback={this.toggleModal}
                 />
-                <Uploader />
-                {/* this has to be moved to presentational for the img tag */}
-                <h2 onClick={this.toggleModal}>
-                    click here to toggle uploader visibility
-                </h2>
                 {this.state.uploaderIsVisible && <Uploader />}
             </div>
         );

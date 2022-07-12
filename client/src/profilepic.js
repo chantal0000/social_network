@@ -1,16 +1,17 @@
 import { Component } from "react";
 
-export default function Profilepic({ first, last, imageUrl }) {
-    // console.log("info being passed down from App: ", imageUrl);
+export default function Profilepic({ first, last, imageUrl, modalCallback }) {
     imageUrl = imageUrl || "/default.png";
 
     return (
         <div>
-            <h2>
-                This is the presentational componet. My name is {first}
-                and my last name is {last}
-            </h2>
-            <img className="profile-pic" src={imageUrl} alt={(first, last)} />
+            <h2>This is the profilepic componet.</h2>
+            <img
+                onClick={modalCallback}
+                className="profile-pic"
+                src={imageUrl}
+                alt={first + last}
+            />
         </div>
     );
 }
