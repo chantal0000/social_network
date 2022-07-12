@@ -37,3 +37,15 @@ main {
     align-items: center;
     align-content: center;
 }
+
+.profile-pic {
+    object-fit: contain;
+    width: 150px;
+    height: 150px;
+}
+
+#profile-img {
+    object-fit: contain;
+    width: 350px;
+    height: 350px;
+}

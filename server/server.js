@@ -242,7 +242,6 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
             console.log("MYrows:", results.rows);
             res.json({
                 data: results.rows[0].url,
-                // tempAnswer: true,
                 success: true,
                 // payload: results.rows[0],
             });

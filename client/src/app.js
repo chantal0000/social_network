@@ -3,6 +3,7 @@ import Logo from "./logo";
 // import Presentational from "./profilepic";
 import Uploader from "./uploader";
 import Profilepic from "./profilepic";
+import Profile from "./profile";
 
 export default class App extends Component {
     constructor() {
@@ -61,6 +62,11 @@ export default class App extends Component {
                 {this.state.uploaderIsVisible && (
                     <Uploader onUrlChange={this.onUrlChange} />
                 )}
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                />
             </div>
         );
     }

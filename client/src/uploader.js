@@ -35,6 +35,7 @@ export default class Uploader extends Component {
             <div id="uploader">
                 <h2>uploader for img</h2>
                 <form onSubmit={this.handleUpload}>
+                    <button id="button-close">X</button>
                     <input
                         id="upload-img"
                         name="image"
