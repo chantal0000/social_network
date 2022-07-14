@@ -45,11 +45,6 @@ app.get("/user/id.json", function (req, res) {
     });
 });
 
-app.get("/logout", (req, res) => {
-    req.session = null;
-    res.redirect("/login");
-});
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///REGISTER/////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,7 +259,7 @@ app.get("/user", (req, res) => {
 //////////////////////////////////////////////////
 app.post("/updateBio", (req, res) => {
     console.log("req.body", req.body.draftBio);
-    console.log("", req.session.user_id);
+    console.log("user_id is:", req.session.user_id);
     db.updateBio(req.body.draftBio, req.session.user_id)
         .then((results) => {
             console.log("results db", results.rows);
@@ -275,6 +270,11 @@ app.post("/updateBio", (req, res) => {
         .catch((err) => {
             console.log("error updatebio server");
         });
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/login");
 });
 
 app.get("*", function (req, res) {

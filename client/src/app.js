@@ -44,6 +44,7 @@ export default class App extends Component {
                     first: data.userInfo.first,
                     last: data.userInfo.last,
                     imageUrl: data.userInfo.url,
+                    bio: data.userInfo.bio,
                 });
             });
     }
