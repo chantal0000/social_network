@@ -56,13 +56,13 @@ module.exports.newPassword = (password, email) => {
 };
 // upload new profile pic
 module.exports.uploadImage = (url, id) => {
-    const query = `
+    const q = `
     UPDATE users
     SET url = $1
     WHERE id = $2
     RETURNING url`;
     const param = [url, id];
-    return db.query(query, param);
+    return db.query(q, param);
 };
 //get users information
 module.exports.getProfile = (id) => {
@@ -71,4 +71,14 @@ module.exports.getProfile = (id) => {
     FROM users WHERE id=$1`,
         [id]
     );
+};
+
+// update Bio
+module.exports.updateBio = (bio, id) => {
+    const q = `UPDATE users
+    SET bio = $1
+    WHERE id = $2
+    RETURNING bio`;
+    const param = [bio, id];
+    return db.query(q, param);
 };

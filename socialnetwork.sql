@@ -7,7 +7,8 @@ first VARCHAR NOT NULL CHECK (first != ''),
 last VARCHAR NOT NULL CHECK (last != ''),
 url TEXT,
 email VARCHAR NOT NULL CHECK (email != '') UNIQUE,
-password VARCHAR NOT NULL CHECK (password != '')
+password VARCHAR NOT NULL CHECK (password != ''),
+bio TEXT
 );
 
 CREATE TABLE reset_codes(

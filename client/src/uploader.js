@@ -18,11 +18,12 @@ export default class Uploader extends Component {
             method: "POST",
             body: new FormData(e.target),
         })
-            .then((resp) => resp.json())
+            .then((res) => res.json())
             .then((results) => {
                 console.log("data from POST / updloader.json", results);
                 // console.log("data in upload", results.data);
                 this.props.onUrlChange(results.data);
+                this.props.modalCallBack();
             })
             .catch((err) => {
                 console.log("error", err);
@@ -33,9 +34,9 @@ export default class Uploader extends Component {
     render() {
         return (
             <div id="uploader">
-                <h2>uploader for img</h2>
+                <h2>UPLOADER for img</h2>
                 <form onSubmit={this.handleUpload}>
-                    <button id="button-close">X</button>
+                    <h2 onClick={this.props.modalCallBack}>X</h2>
                     <input
                         id="upload-img"
                         name="image"

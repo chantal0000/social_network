@@ -230,7 +230,6 @@ const upload = multer({
 
 app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
     console.log("in upload");
-    // console.log("https://s3.amazonaws.com/spicedling/" + req.file.filename);
     const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
 
     // console.log("this will be containi...........")
@@ -243,9 +242,7 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
             res.json({
                 data: results.rows[0].url,
                 success: true,
-                // payload: results.rows[0],
             });
-            //WHAT GOES IN HEERE?
         })
         .catch((err) => {
             console.log("error uploadng", err);
@@ -265,6 +262,20 @@ app.get("/user", (req, res) => {
     });
 });
 //////////////////////////////////////////////////
+app.post("/updateBio", (req, res) => {
+    console.log("req.body", req.body.draftBio);
+    console.log("", req.session.user_id);
+    db.updateBio(req.body.draftBio, req.session.user_id)
+        .then((results) => {
+            console.log("results db", results.rows);
+            res.json({
+                updatedBio: results.rows[0],
+            });
+        })
+        .catch((err) => {
+            console.log("error updatebio server");
+        });
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
