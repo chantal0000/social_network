@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import Uploader from "./uploader";
 import Profilepic from "./profilepic";
 import Profile from "./profile";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import FindPeople from "./findPeople";
 
 export default class App extends Component {
     constructor(props) {
@@ -68,31 +69,48 @@ export default class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    {/* <nav>
-                        <Link to="/">Home</Link>
-                    </nav> */}
                     <h1>APP says hello</h1>
-                    <Logo />
-                    <Profilepic
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
-                        modalCallback={this.toggleModal}
-                    />
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            onUrlChange={this.onUrlChange}
-                            modalCallBack={this.toggleModal}
+                    <section className="headerContainer">
+                        <Logo />
+                        <Profilepic
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            modalCallback={this.toggleModal}
                         />
-                    )}
-                    <Profile
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
-                        bio={this.state.bio}
-                        setBio={this.setBio}
-                    />
+                        <Link to="/find">Find People</Link>
+                        <br></br>
+                        <Link to="/">My Profile</Link>
+                    </section>
+                    <Switch>
+                        <Route exact path="/">
+                            {this.state.uploaderIsVisible && (
+                                <Uploader
+                                    onUrlChange={this.onUrlChange}
+                                    modalCallBack={this.toggleModal}
+                                />
+                            )}
+
+                            {!this.state.uploaderIsVisible && (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    imageUrl={this.state.imageUrl}
+                                    bio={this.state.bio}
+                                    setBio={this.setBio}
+                                />
+                            )}
+                        </Route>
+                        <Route path="/find">
+                            <FindPeople />
+                        </Route>
+                    </Switch>
                 </BrowserRouter>
+                <footer>
+                    <button>
+                        <a href="/logout">Logout</a>
+                    </button>
+                </footer>
             </div>
         );
     }

@@ -268,9 +268,33 @@ app.post("/updateBio", (req, res) => {
             });
         })
         .catch((err) => {
-            console.log("error updatebio server");
+            console.log("error updatebio server", err);
         });
 });
+
+//////////
+//////////
+app.get("/findusers", (req, res) => {
+    db.getRecentUsers()
+        .then((results) => {
+            res.json(results.rows);
+        })
+        .catch((error) => {
+            console.log("error server find", error);
+        });
+});
+
+//////////
+app.get("/findusers/:search", (req, res) => {
+    db.searchUsers(req.params.search)
+        .then((results) => {
+            res.json(results.rows);
+        })
+        .catch((error) => {
+            console.log("smth wrong findinf user", error);
+        });
+});
+/////////
 
 app.get("/logout", (req, res) => {
     req.session = null;
