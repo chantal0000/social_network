@@ -8,4 +8,5 @@
 // to manage the state of our components as app grows
 // we currently store most info in App
 // however this can cause some issues
+// not needed in every react project but can be very useful (a lot code to set up)
 //
