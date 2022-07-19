@@ -8,11 +8,11 @@ export default class Uploader extends Component {
     }
     // ADjust upload!!
     componentDidMount() {
-        console.log("component uploader mounted");
+        // console.log("component uploader mounted");
     }
     handleUpload(e) {
         e.preventDefault();
-        console.log("handleUpload");
+        // console.log("handleUpload");
         //register.json
         fetch("/upload", {
             method: "POST",
@@ -20,7 +20,7 @@ export default class Uploader extends Component {
         })
             .then((res) => res.json())
             .then((results) => {
-                console.log("data from POST / updloader.json", results);
+                // console.log("data from POST / updloader.json", results);
                 // console.log("data in upload", results.data);
                 this.props.onUrlChange(results.data);
                 this.props.modalCallBack();

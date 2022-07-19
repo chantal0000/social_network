@@ -78,7 +78,7 @@ app.post("/login", (req, res) => {
     console.log("email", req.body.email);
     db.login(req.body.email)
         .then((results) => {
-            console.log(results.rows[0].password);
+            // console.log(results.rows[0].password);
             if (results.rows[0]) {
                 return bcrypt
                     .compare(req.body.password, results.rows[0].password)
@@ -107,10 +107,10 @@ app.post("/login", (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.post("/password/reset/start", (req, res) => {
-    console.log("email", req.body.email);
+    // console.log("email", req.body.email);
     db.login(req.body.email)
         .then((results) => {
-            console.log("results", results);
+            // console.log("results", results);
             if (results.rowCount === 0) {
                 res.json({
                     success: false,
@@ -250,7 +250,7 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
 app.get("/user", (req, res) => {
     console.log("i am in user");
     db.getProfile(req.session.user_id).then((results) => {
-        console.log("results user_id, get ingo", results);
+        // console.log("results user_id, get ingo", results);
         res.json({
             userInfo: results.rows[0],
         });
@@ -258,8 +258,8 @@ app.get("/user", (req, res) => {
 });
 //////////////////////////////////////////////////
 app.post("/updateBio", (req, res) => {
-    console.log("req.body", req.body.draftBio);
-    console.log("user_id is:", req.session.user_id);
+    // console.log("req.body", req.body.draftBio);
+    // console.log("user_id is:", req.session.user_id);
     db.updateBio(req.body.draftBio, req.session.user_id)
         .then((results) => {
             console.log("results db", results.rows);
@@ -295,6 +295,27 @@ app.get("/findusers/:search", (req, res) => {
         });
 });
 /////////
+app.get("/api/user/:id", (req, res) => {
+    console.log("api/user/:id", req.params);
+    if (req.session.user_id == req.params.id) {
+        res.json({
+            myProfile: true,
+        });
+    }
+    db.getProfile(req.params.id)
+        .then((results) => {
+            if (results.rows[0]) {
+                res.json({ profile: results.rows[0] });
+            } else {
+                res.json({});
+            }
+        })
+        .catch((error) => {
+            console.log("eroor in otherPopel", error);
+        });
+});
+
+///////
 
 app.get("/logout", (req, res) => {
     req.session = null;

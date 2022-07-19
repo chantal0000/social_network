@@ -67,8 +67,9 @@ module.exports.uploadImage = (url, id) => {
 //get users information
 module.exports.getProfile = (id) => {
     return db.query(
-        `SELECT first, last, url, bio 
-    FROM users WHERE id=$1`,
+        `SELECT users.first, users.last, users.url, users.bio 
+    FROM users WHERE id=$1
+    LIMIT 1`,
         [id]
     );
 };

@@ -7,6 +7,7 @@ import Profilepic from "./profilepic";
 import Profile from "./profile";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FindPeople from "./findPeople";
+import OtherProfile from "./otherProfile";
 
 export default class App extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export default class App extends Component {
 
     setBio(newBio) {
         this.setState({ bio: newBio });
-        console.log("newBio in app", newBio);
+        // console.log("newBio in app", newBio);
         // the responsibility of this fn is to store this argument in Apps state
         // this function is created in App but needs to be called in BioEditor
         // it expects to be passed the official bio
@@ -40,7 +41,7 @@ export default class App extends Component {
         fetch("/user")
             .then((res) => res.json())
             .then((data) => {
-                console.log("data in app.js", data);
+                // console.log("data in app.js", data);
                 this.setState({
                     first: data.userInfo.first,
                     last: data.userInfo.last,
@@ -104,9 +105,9 @@ export default class App extends Component {
                         <Route path="/find">
                             <FindPeople />
                         </Route>
-                        {/* <Route path="/user/:otherUserId">
+                        <Route path="/user/:otherUserId">
                             <OtherProfile />
-                        </Route> */}
+                        </Route>
                     </Switch>
                 </BrowserRouter>
                 <footer>
