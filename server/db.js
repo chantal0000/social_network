@@ -99,3 +99,54 @@ LIMIT 3`,
         [val + "%"]
     );
 };
+
+// friendship status
+
+module.exports.friendshipCheck = (userId, viewedUserId) => {
+    const q = `SELECT * FROM friendships
+     WHERE (recipient_id = $1 AND sender_id = $2)
+     OR (recipient_id = $2 AND sender_id = $1)`;
+
+    const param = [userId, viewedUserId];
+    return db.query(q, param);
+};
+
+// friend request
+module.exports.friendshipRequest = (userId, viewedUserId) => {
+    const q = `INSERT INTO friendships(sender_id, recipient_id)
+    VALUES ($1, $2)`;
+    const param = [userId, viewedUserId];
+    return db.query(q, param);
+};
+
+// accept friends
+
+module.exports.friendshipAccept = (userId, viewedUserId) => {
+    const q = `UPDATE friendships
+    SET accepted = true
+    WHERE (recipient_id = $1 AND sender_id = $2)`;
+    const param = [userId, viewedUserId];
+    return db.query(q, param);
+};
+
+// unfriend and cancel request
+
+module.exports.cancelOrUnfriend = (userId, viewedUserId) => {
+    const q = `DELETE FROM friendships
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (sender_id = $1 AND recipient_id = $2)`;
+    const param = [userId, viewedUserId];
+    return db.query(q, param);
+};
+
+// friends and wannabees
+module.exports.friendsAndWannabees = (userId) => {
+    const q = `SELECT users.id, first, last, url, accepted
+FROM friendships
+JOIN users
+ON (accepted = false AND recipient_id = $1 AND requester_id = users.id)
+OR (accepted = true AND recipient_id = $1 AND requester_id = users.id)
+OR (accepted = true AND requester_id = $1 AND recipient_id = users.id)`;
+    const param = [userId];
+    return db.query(q, param);
+};

@@ -13,9 +13,9 @@ main {
     flex-wrap: wrap;
 }
 
-.logo {
-    width: 150px;
-    height: 150px;
+#logo {
+    /* width: 150px;
+    height: 150px; */
     object-fit: contain;
 }
 #uploader {
@@ -54,4 +54,9 @@ img {
     height: 130px;
     width: 100px;
     object-fit: cover;
+}
+
+button {
+    width: 120px;
+    height: 40px;
 }

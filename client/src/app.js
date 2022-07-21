@@ -8,6 +8,8 @@ import Profile from "./profile";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
+import { Provider } from "react-redux";
+import FriendsAndWannabees from "./friendsAndWannabees";
 
 export default class App extends Component {
     constructor(props) {
@@ -82,6 +84,9 @@ export default class App extends Component {
                         <Link to="/find">Find People</Link>
                         <br></br>
                         <Link to="/">My Profile</Link>
+                        <Link to="/friends-and-wannabees">
+                            Friends and futute friends
+                        </Link>
                     </section>
                     <Switch>
                         <Route exact path="/">
@@ -107,6 +112,9 @@ export default class App extends Component {
                         </Route>
                         <Route path="/user/:otherUserId">
                             <OtherProfile />
+                        </Route>
+                        <Route path="/friends-and-wannabees">
+                            <FriendsAndWannabees />
                         </Route>
                     </Switch>
                 </BrowserRouter>

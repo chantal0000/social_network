@@ -2,13 +2,14 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
 import Reset from "./reset";
+import Logo from "./logo";
 
 export default function Welcome() {
     return (
         <div id="welcome">
             <h1>Welcome!</h1>
-            <img src="/logo.png" />
             <BrowserRouter>
+                <Logo />
                 <div>
                     <Route exact path="/">
                         <Registration />

@@ -315,7 +315,97 @@ app.get("/api/user/:id", (req, res) => {
         });
 });
 
-///////
+/////// check frienship
+
+app.get("/api/relationship/:id", (req, res) => {
+    console.log("req.params.", req.params.id);
+    console.log("req.session.user_id", req.session.user_id);
+
+    db.friendshipCheck(req.session.user_id, req.params.id)
+        .then((result) => {
+            console.log("results.rows leer2?", result);
+            if (result.rows[0]) {
+                res.json(result.rows[0]);
+            } else {
+                res.json({ notFriends: true });
+            }
+        })
+        .catch((error) => {
+            console.log("error in server friendcheck", error);
+        });
+});
+//////  friend request, cancel, accept
+
+app.post("/api/friendshipButton/:id", (req, res) => {
+    console.log("req.params.id", req.params.id);
+    console.log(req.session.user_id);
+    console.log(req.body.buttonText);
+
+    if (req.body.buttonText === "Send Friend Request") {
+        console.log("friend request send");
+        db.friendshipRequest(req.session.user_id, req.params.id)
+            .then((results) => {
+                res.json({
+                    resultRequest: results.rows[0],
+                    buttonText: "Cancel request",
+                });
+            })
+            .catch((error) => {
+                console.log("error server friend req", error);
+            });
+    } else if (req.body.buttonText === "Accept friend request") {
+        console.log("accepz");
+        db.friendshipAccept(req.session.user_id, req.params.id)
+            .then((results) => {
+                console.log("ISSUE results.rows", results.rows);
+                res.json({
+                    resultAccept: results.rows[0],
+                    buttonText: "End Friendship",
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    } else if (
+        req.body.buttonText === "Cancel request" ||
+        req.body.buttonText === "End Friendship"
+    ) {
+        console.log("cancel friend");
+        db.cancelOrUnfriend(req.session.user_id, req.params.id)
+            .then((results) => {
+                res.json({
+                    resultCancel: results.rows[0],
+                    buttonText: "Send Friend Request",
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+});
+/////////
+app.get("/friends-wannabees", async (req, res) => {
+    try {
+        const results = await db.friendsAndWannabees(req.session.user_id);
+        const friendsAndMore = results.rows;
+        res.json({
+            sucess: true,
+            friendsAndMore,
+        });
+    } catch (error) {
+        console.log("error friends aand wanna", error);
+        res.json({
+            success: false,
+            error: true,
+        });
+    }
+});
+// GET /friends-wannabees route (NEW) -
+// this route will retrieve the list of friends and
+// wannabees from the
+// database and send it back to the client.
+
+//////
 
 app.get("/logout", (req, res) => {
     req.session = null;

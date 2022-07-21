@@ -1,28 +1,26 @@
-// a mini / sub-reducer that handles changes to the global state - but only specific to the friends
-//friends=[] is a property inside global state, we're using default
-// export default function friendsReducer(friends = []) {
-//     if (action.type === "friends/accept") {
-//         const newFriends = friends.map;
-//         // do your mapping here
-//         // check if the id of the users match the id of the user you just clicked
-//         // if it does copy the user and change its accepted calue to true
-//     }
-//     return friends;
-// }
+// redux/friends/slice.js
 
-// how to avoid mutation
-// var obj = {
-//     name: "Layla",
-// };
+// this is our friends-wannabees sub-reducer
+// in here- we MUST make copies for every array and object
+// no mutating allowed!
 
-// // #1 spread operator (works for objects & arrays)
-// var newObj = { ...obj };
+export default function friendsWannabeesReducer(friends = [], action) {
+    if (action.type === "friends-wannabees/accept") {
+        // const newFriendsWannabees = friendsWannabees.map( do your logic here)
+        // return newFriendsWannabees;
+    }
 
-// var newObj = { ...obj, last: "Arias " };
+    return friends;
+}
 
-// var arr = [1, 2, 3];
-// var newArr = [...arr];
-// var newArr = [...arr, 4];
+// Actions go below
+
+export function makeFriend(id) {
+    return {
+        type: "/friends-wannabees/accept",
+        payload: { id },
+    };
+}
 
 // #2 MAP - works only on Arrays
 // useful for cloning, looping and changing each element in the array
