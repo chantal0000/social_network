@@ -4,10 +4,22 @@
 // in here- we MUST make copies for every array and object
 // no mutating allowed!
 
-export default function friendsWannabeesReducer(friends = [], action) {
+export default function FriendsAndWannabeesReducer(friends = [], action) {
+    if (action.type === "friends-wannabees/receive") {
+        console.log("action", action.payload);
+        friends = action.payload.friendsAndWannabees;
+        console.log("friends", friends);
+    }
+
     if (action.type === "friends-wannabees/accept") {
         // const newFriendsWannabees = friendsWannabees.map( do your logic here)
         // return newFriendsWannabees;
+        friends = friends.map((friend) => {
+            return {
+                ...friend,
+                accepted: true,
+            };
+        });
     }
 
     return friends;
@@ -19,6 +31,20 @@ export function makeFriend(id) {
     return {
         type: "/friends-wannabees/accept",
         payload: { id },
+    };
+}
+
+export function makeUnfriend(id) {
+    return {
+        type: "friends-wannabees/unfriend",
+        payload: { id },
+    };
+}
+
+export function receiveFriendsAndWannabees(friendsAndWannabees) {
+    return {
+        type: "friends-wannabees/receive",
+        payload: { friendsAndWannabees },
     };
 }
 

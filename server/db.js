@@ -144,9 +144,21 @@ module.exports.friendsAndWannabees = (userId) => {
     const q = `SELECT users.id, first, last, url, accepted
 FROM friendships
 JOIN users
-ON (accepted = false AND recipient_id = $1 AND requester_id = users.id)
-OR (accepted = true AND recipient_id = $1 AND requester_id = users.id)
-OR (accepted = true AND requester_id = $1 AND recipient_id = users.id)`;
+ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
     const param = [userId];
     return db.query(q, param);
 };
+
+// get last 10 messages
+
+module.exports.last10Msg = () => {
+    return db.query(`SELECT users.id, messages.user_id, messages.message, users.first, users.last,  users.url
+    FROM messages
+    JOIN users ON ( users.id = user_id)
+    ORDER BY messages.user_id DESC
+    LIMIT 10`);
+};
+
+//

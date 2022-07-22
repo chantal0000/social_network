@@ -4,10 +4,7 @@ import BioEditor from "./bioEditor";
 export default function Profile(props) {
     console.log("my props in profile", props);
     return (
-        <div>
-            <h2>
-                ___________________________________________________________________________
-            </h2>
+        <div className="flexbox">
             <h2>This is the PROFILE componet.</h2>
             <h3>first name: {props.first}</h3>
             <h3>last name: {props.last}</h3>

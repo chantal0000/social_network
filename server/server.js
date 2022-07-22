@@ -10,7 +10,11 @@ const { sendEmail } = require("./ses");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const s3 = require("./s3");
-
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 // ///
 const COOKIE_SECRET =
     process.env.COOKIE_SECRET || require("./secrets.json").COOKIE_SECRET;
@@ -29,14 +33,18 @@ app.use(
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: COOKIE_SECRET,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: COOKIE_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+});
 
+//this gives sockets access to our request object upon connectsion! So that means we know
+// which userid belongs to which socket upon connecting!
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+app.use(cookieSessionMiddleware);
 // GET ROUTES
 
 app.get("/user/id.json", function (req, res) {
@@ -339,7 +347,7 @@ app.get("/api/relationship/:id", (req, res) => {
 app.post("/api/friendshipButton/:id", (req, res) => {
     console.log("req.params.id", req.params.id);
     console.log(req.session.user_id);
-    console.log(req.body.buttonText);
+    console.log("buttontext here:", req.body.buttonText);
 
     if (req.body.buttonText === "Send Friend Request") {
         console.log("friend request send");
@@ -383,11 +391,14 @@ app.post("/api/friendshipButton/:id", (req, res) => {
             });
     }
 });
+//
+
 /////////
 app.get("/friends-wannabees", async (req, res) => {
     try {
         const results = await db.friendsAndWannabees(req.session.user_id);
         const friendsAndMore = results.rows;
+        console.log("resultsin server friendsandwanna", results);
         res.json({
             sucess: true,
             friendsAndMore,
@@ -406,7 +417,70 @@ app.get("/friends-wannabees", async (req, res) => {
 // database and send it back to the client.
 
 //////
+// BELOW IS ALL THE CODE FOR MY SOCKETS COMMUNICATION
+io.on("connection", async (socket) => {
+    try {
+        if (!socket.request.session.user_id) {
+            return socket.disconnect(true);
+        }
+        const userId = socket.request.session.user_id;
+        console.log(
+            `User with id: ${userId} and socket.id ${socket.id}, just connected`
+        );
 
+        //in here we do our emitting on every new connection! Like when the user first
+        // connect we want to sent them the chat history
+        // 1. get the messages from the database
+        try {
+            const { rows: messages } = await db.last10Msg();
+            console.log("messages received from [db]", messages);
+            // ...
+            // 2. send them over to the socket that just connected
+            socket.emit("last-10-messages", {
+                messages,
+            });
+        } catch (error) {
+            console.log("error 10 msg", error);
+        }
+
+        try {
+            socket.on("new-message", async (newMsg) => {
+                console.log("new-message:", newMsg);
+                // 1. we want to know who send the message
+                console.log("author of the msg was user with id:", userId);
+                // 2. we need to add this msg to the chats table
+                // 3. we want to retrieve user information about the author
+                // 4. compose a message object that contains user info, and message
+                // 5. send back to all connect sockets, that there is a new msg to add
+                io.emit("add-new-message", newMsg);
+            });
+        } catch (error) {
+            console.log("error");
+        }
+    } catch (error) {
+        console.log("eror", error);
+    }
+});
+// chat messages "/chat"
+// app.get("/chat", async (req, res) => {
+//     try {
+//         const results = await db.last10Msg(req.session.user_id);
+//         const messages = results.rows;
+//         console.log("results in last10Msg", results);
+//         res.json({
+//             sucess: true,
+//             messages,
+//         });
+//     } catch (error) {
+//         console.log("error last10Msg", error);
+//         res.json({
+//             success: false,
+//             error: true,
+//         });
+//     }
+// });
+
+///
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/login");
@@ -416,6 +490,6 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });

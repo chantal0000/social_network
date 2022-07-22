@@ -10,6 +10,7 @@ import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
 import { Provider } from "react-redux";
 import FriendsAndWannabees from "./friendsAndWannabees";
+import Chat from "./chat";
 
 export default class App extends Component {
     constructor(props) {
@@ -72,7 +73,6 @@ export default class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    <h1>APP says hello</h1>
                     <section className="headerContainer">
                         <Logo />
                         <Profilepic
@@ -81,12 +81,25 @@ export default class App extends Component {
                             imageUrl={this.state.imageUrl}
                             modalCallback={this.toggleModal}
                         />
-                        <Link to="/find">Find People</Link>
-                        <br></br>
-                        <Link to="/">My Profile</Link>
-                        <Link to="/friends-and-wannabees">
-                            Friends and futute friends
-                        </Link>
+                        <ul>
+                            <li>
+                                {" "}
+                                <Link to="/find">Find People</Link>{" "}
+                            </li>
+                            <li>
+                                {" "}
+                                <Link to="/">My Profile</Link>{" "}
+                            </li>
+
+                            <li>
+                                <Link to="/fwannabees">
+                                    Friends and futute friends
+                                </Link>{" "}
+                            </li>
+                            <li>
+                                <Link to="messages">Messages</Link>
+                            </li>
+                        </ul>
                     </section>
                     <Switch>
                         <Route exact path="/">
@@ -113,8 +126,11 @@ export default class App extends Component {
                         <Route path="/user/:otherUserId">
                             <OtherProfile />
                         </Route>
-                        <Route path="/friends-and-wannabees">
+                        <Route path="/fwannabees">
                             <FriendsAndWannabees />
+                        </Route>
+                        <Route path="/messages">
+                            <Chat />
                         </Route>
                     </Switch>
                 </BrowserRouter>

@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS reset_codes;
 DROP TABLE IF EXISTS friendships;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
@@ -25,3 +26,12 @@ CREATE TABLE reset_codes(
       recipient_id INT REFERENCES users(id) NOT NULL,
       accepted BOOLEAN DEFAULT false
   );
+
+  CREATE TABLE messages (
+   id SERIAL PRIMARY KEY,
+   user_id INT REFERENCES users(id) NOT NULL,
+   message TEXT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+INSERT INTO messages (user_id, message)
+ VALUES (61, 'Hallo Quello');

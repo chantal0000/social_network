@@ -5,12 +5,22 @@
 body {
     background-color: whitesmoke;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
 }
 
 main {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
+}
+
+.flexbox {
+    align-items: center;
+    flex-direction: column;
+    display: flex;
 }
 
 #logo {
@@ -59,4 +69,37 @@ img {
 button {
     width: 120px;
     height: 40px;
+}
+
+.headerContainer {
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+}
+
+li {
+    display: inline;
+    float: center;
+    /* display: block; */
+    padding: 8px;
+    background-color: #dddddd;
+}
+
+/* scrolling of chat container */
+.container-chat {
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.find-people {
+    background-color: transparent;
 }
