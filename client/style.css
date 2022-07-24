@@ -98,6 +98,8 @@ li {
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
+    background-color: antiquewhite;
+    height: 150px;
 }
 
 .find-people {

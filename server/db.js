@@ -154,11 +154,19 @@ OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
 // get last 10 messages
 
 module.exports.last10Msg = () => {
-    return db.query(`SELECT users.id, messages.user_id, messages.message, users.first, users.last,  users.url
+    return db.query(`SELECT messages.id, messages.message, users.first, users.last,  users.url
     FROM messages
     JOIN users ON ( users.id = user_id)
-    ORDER BY messages.user_id DESC
+    ORDER BY created_at DESC
     LIMIT 10`);
 };
 
-//
+// insert new message into db
+
+module.exports.newMessage = (message, user) => {
+    const q = `INSERT INTO messages(message,user_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const param = [message, user];
+    return db.query(q, param);
+};

@@ -411,12 +411,7 @@ app.get("/friends-wannabees", async (req, res) => {
         });
     }
 });
-// GET /friends-wannabees route (NEW) -
-// this route will retrieve the list of friends and
-// wannabees from the
-// database and send it back to the client.
 
-//////
 // BELOW IS ALL THE CODE FOR MY SOCKETS COMMUNICATION
 io.on("connection", async (socket) => {
     try {
@@ -428,14 +423,10 @@ io.on("connection", async (socket) => {
             `User with id: ${userId} and socket.id ${socket.id}, just connected`
         );
 
-        //in here we do our emitting on every new connection! Like when the user first
-        // connect we want to sent them the chat history
-        // 1. get the messages from the database
         try {
             const { rows: messages } = await db.last10Msg();
             console.log("messages received from [db]", messages);
-            // ...
-            // 2. send them over to the socket that just connected
+
             socket.emit("last-10-messages", {
                 messages,
             });
@@ -449,10 +440,27 @@ io.on("connection", async (socket) => {
                 // 1. we want to know who send the message
                 console.log("author of the msg was user with id:", userId);
                 // 2. we need to add this msg to the chats table
+                const { rows: chatMessage } = await db.newMessage(
+                    newMsg,
+                    userId
+                );
                 // 3. we want to retrieve user information about the author
+                const { rows: user } = await db.getProfile(userId);
+
                 // 4. compose a message object that contains user info, and message
+                const newMessage = chatMessage[0];
+                const messenger = user[0];
+
+                const finalMessage = {
+                    id: newMessage.id,
+                    first: messenger.first,
+                    imageUrl: messenger.imageUrl,
+                    last: messenger.last,
+                    message: newMessage.message,
+                    user_id: messenger.user_id,
+                };
                 // 5. send back to all connect sockets, that there is a new msg to add
-                io.emit("add-new-message", newMsg);
+                io.emit("add-new-message", finalMessage);
             });
         } catch (error) {
             console.log("error");
@@ -461,24 +469,6 @@ io.on("connection", async (socket) => {
         console.log("eror", error);
     }
 });
-// chat messages "/chat"
-// app.get("/chat", async (req, res) => {
-//     try {
-//         const results = await db.last10Msg(req.session.user_id);
-//         const messages = results.rows;
-//         console.log("results in last10Msg", results);
-//         res.json({
-//             sucess: true,
-//             messages,
-//         });
-//     } catch (error) {
-//         console.log("error last10Msg", error);
-//         res.json({
-//             success: false,
-//             error: true,
-//         });
-//     }
-// });
 
 ///
 app.get("/logout", (req, res) => {

@@ -16,10 +16,11 @@ export const init = (store) => {
         store.dispatch(messagesReceived(msg.messages));
     });
 
-    // socket.on("add-new-message", (msg) => {
-    //     console.log("server just emitted a new msg to add", msg);
-    //     // time to dispatch an ection message/addNew would be a good one
-    //     // pass to action the object containing the message, and the user info
-    //     // of the author
-    // });
+    socket.on("add-new-message", (msg) => {
+        console.log("server just emitted a new msg to add", msg);
+        // time to dispatch an ection message/addNew would be a good one
+        // pass to action the object containing the message, and the user info
+        // of the author
+        store.dispatch(addNewMessage(msg));
+    });
 };

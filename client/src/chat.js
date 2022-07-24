@@ -24,8 +24,8 @@ export default function Chat() {
                     messages.map((message) => {
                         return (
                             <p key={message.id}>
-                                {message.first} {message.last}:{" "}
-                                {message.message}
+                                {message.first}
+                                {message.last}:{message.message}
                             </p>
                         );
                     })}
@@ -34,6 +34,7 @@ export default function Chat() {
                 onKeyDown={keyCheck}
                 placeholder="send new message"
             ></textarea>
+            <button>send</button>
         </>
     );
 }
