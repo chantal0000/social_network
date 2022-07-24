@@ -70,7 +70,6 @@ export default class BioEditor extends Component {
     render() {
         return (
             <div>
-                <h2>BIOEDITOR</h2>
                 {this.state.showTextArea && (
                     <div>
                         <input

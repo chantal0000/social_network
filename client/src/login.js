@@ -56,27 +56,29 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div>
-                <h1>LOOOOOOGIN</h1>
+            <div className="center">
+                <h1>LOG IN</h1>
                 {this.state.error && (
                     <p className="err">Smth went wrong! LOGIN!</p>
                 )}
-
-                <h1>this is the login component</h1>
 
                 <input
                     onChange={this.handleChange}
                     name="email"
                     placeholder="E-Mail"
                     type="e-mail"
+                    className="inputbox"
                 ></input>
                 <input
                     onChange={this.handleChange}
                     name="password"
                     placeholder="Password"
                     type="password"
+                    className="inputbox"
                 ></input>
-                <button onClick={this.handleSubmit}>Log in</button>
+                <button onClick={this.handleSubmit} className="reg-button">
+                    Log in
+                </button>
                 <p>
                     not a member? <Link to="/">register</Link>
                 </p>

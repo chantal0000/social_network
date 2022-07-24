@@ -20,46 +20,49 @@ export default class Reset extends Component {
         if (this.state.view === 1) {
             return (
                 <div>
-                    <h1>View 1: type in your e-mail please</h1>
+                    <h2>what's your e-mail?</h2>
                     <input
                         onChange={this.handleChange}
                         name="email"
                         placeholder="E-Mail"
                         type="e-mail"
+                        className="inputbox"
                     />
-                    <button onClick={this.passwordReset}>Send</button>
-                    <p>
-                        just kidding, I know my password! go back to:
-                        <Link to="/login"> Log in</Link>
-                    </p>
+                    <button className="reg-button" onClick={this.passwordReset}>
+                        Send
+                    </button>
+                    <p>just kidding, I know my password!</p>
+                    <Link to="/login">Log in</Link>
                 </div>
             );
         } else if (this.state.view === 2) {
             return (
                 <div>
-                    <h1>
-                        View 2: two inputs (reset code, new pw), & one button
-                    </h1>
+                    <h1>enter code and new password</h1>
                     <input
                         onChange={this.handleChange}
                         name="reset_code"
-                        placeholder="reset-code"
+                        placeholder="Reset-Code"
                         type="text"
+                        className="inputbox"
                     />
                     <input
                         onChange={this.handleChange}
                         name="new_password"
                         placeholder="New Password"
                         type="password"
+                        className="inputbox"
                     />
-                    <button onClick={this.newPassword}>Send</button>
+                    <button className="reg-button" onClick={this.newPassword}>
+                        Send
+                    </button>
                 </div>
             );
         } else if (this.state.view === 3) {
             // remember to also add a link to login ;)
             return (
                 <div>
-                    <h1>success msg & link back to Login!</h1>
+                    <h1>YAY! It worked!</h1>
                     <p>
                         <Link to="/login">Log in</Link>
                     </p>
@@ -149,8 +152,8 @@ export default class Reset extends Component {
     }
     render() {
         return (
-            <div>
-                <h1>reset pw render</h1>
+            <div className="center">
+                <h1>RESET YOUR PASSWORD</h1>
                 {/* call the method */}
                 {this.determineViewToRender()}
             </div>

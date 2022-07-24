@@ -18,23 +18,26 @@ export default function Chat() {
     };
     return (
         <>
-            <h1>Welcome to Chat</h1>
-            <div className="container-chat">
-                {messages &&
-                    messages.map((message) => {
-                        return (
-                            <p key={message.id}>
-                                {message.first}
-                                {message.last}:{message.message}
-                            </p>
-                        );
-                    })}
+            <div className="center">
+                <h1>check latest messages</h1>
+                <div className="container-chat">
+                    {messages &&
+                        messages.map((message) => {
+                            return (
+                                <p key={message.id}>
+                                    {message.first}
+                                    {message.last}:{message.message}
+                                </p>
+                            );
+                        })}
+                </div>
+                <textarea
+                    className="inputbox"
+                    onKeyDown={keyCheck}
+                    placeholder="send new message"
+                ></textarea>
+                <button className="reg-button">send</button>
             </div>
-            <textarea
-                onKeyDown={keyCheck}
-                placeholder="send new message"
-            ></textarea>
-            <button>send</button>
         </>
     );
 }

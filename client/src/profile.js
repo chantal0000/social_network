@@ -4,12 +4,16 @@ import BioEditor from "./bioEditor";
 export default function Profile(props) {
     console.log("my props in profile", props);
     return (
-        <div className="flexbox">
-            <h2>This is the PROFILE componet.</h2>
-            <h3>first name: {props.first}</h3>
-            <h3>last name: {props.last}</h3>
-            <img id="profile-img" src={props.imageUrl}></img>
-            <BioEditor bio={props.bio} setBio={props.setBio} />
+        <div className="center" id="profile">
+            <h1>Hey {props.first}, good to see you!</h1>
+            <img id="profile-img" src={props.imageUrl || "/default.png"}></img>
+            <h1>
+                {props.first} {props.last}
+            </h1>
+
+            <div>
+                <BioEditor bio={props.bio} setBio={props.setBio} />
+            </div>
         </div>
     );
 }

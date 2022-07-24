@@ -81,14 +81,14 @@ export default class App extends Component {
                             imageUrl={this.state.imageUrl}
                             modalCallback={this.toggleModal}
                         />
-                        <ul>
-                            <li>
-                                {" "}
-                                <Link to="/find">Find People</Link>{" "}
-                            </li>
+                        <ul className="nav-container">
                             <li>
                                 {" "}
                                 <Link to="/">My Profile</Link>{" "}
+                            </li>
+                            <li>
+                                {" "}
+                                <Link to="/find">Find People</Link>{" "}
                             </li>
 
                             <li>
@@ -135,7 +135,7 @@ export default class App extends Component {
                     </Switch>
                 </BrowserRouter>
                 <footer>
-                    <button>
+                    <button id="logout-btn">
                         <a href="/logout">Logout</a>
                     </button>
                 </footer>

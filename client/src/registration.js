@@ -26,7 +26,7 @@ export default class Registration extends Component {
             // () => console.log("this.state", this.state)
         );
     }
-    handleSubmit(e) {
+    handleSubmit() {
         console.log("handleSubmit ");
         //register.json
         fetch("/register", {
@@ -56,18 +56,18 @@ export default class Registration extends Component {
     }
     render() {
         return (
-            <div>
-                <h1>welcome to this network</h1>
+            <div className="center">
+                <h1>SOCIAL NETWORK</h1>
                 {this.state.error && (
                     <p className="err">Smth went wrong! try again PLEASE!</p>
                 )}
 
-                <h1>this is the registration component</h1>
                 <input
                     onChange={this.handleChange}
                     name="first"
                     placeholder="First Name"
                     type="text"
+                    className="inputbox"
                 ></input>
                 <input
                     // if you don't bind "THIS" above you can use onChange={(e) => this.handleChange(e)}
@@ -75,20 +75,25 @@ export default class Registration extends Component {
                     name="last"
                     placeholder="Last Name"
                     type="text"
+                    className="inputbox"
                 ></input>
                 <input
                     onChange={this.handleChange}
                     name="email"
                     placeholder="E-Mail"
                     type="e-mail"
+                    className="inputbox"
                 ></input>
                 <input
                     onChange={this.handleChange}
                     name="password"
                     placeholder="Password"
                     type="password"
+                    className="inputbox"
                 ></input>
-                <button onClick={this.handleSubmit}>Register</button>
+                <button onClick={this.handleSubmit} className="reg-button">
+                    Register
+                </button>
                 <p>
                     already a member? <Link to="/login">Log in</Link>
                 </p>
