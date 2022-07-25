@@ -50,10 +50,10 @@ export default function OtherProfile() {
                 </div>
             )}
             {user && (
-                <div>
-                    <h3>
+                <div className="center">
+                    <h1>
                         {user.first} {user.last}
-                    </h3>
+                    </h1>
                     <img src={user.url} alt={`${user.first} ${user.last}`} />
                     <FriendButton otherUserId={otherUserId} />
                     <h3>{user.bio}</h3>

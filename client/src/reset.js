@@ -2,8 +2,8 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class Reset extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             view: 1,
             error: false,
@@ -19,7 +19,7 @@ export default class Reset extends Component {
         // this method determines what the render!
         if (this.state.view === 1) {
             return (
-                <div>
+                <div key="view1">
                     <h2>what's your e-mail?</h2>
                     <input
                         onChange={this.handleChange}
@@ -29,7 +29,7 @@ export default class Reset extends Component {
                         className="inputbox"
                     />
                     <button className="reg-button" onClick={this.passwordReset}>
-                        Send
+                        send
                     </button>
                     <p>just kidding, I know my password!</p>
                     <Link to="/login">Log in</Link>
@@ -37,34 +37,34 @@ export default class Reset extends Component {
             );
         } else if (this.state.view === 2) {
             return (
-                <div>
+                <div key="view2">
                     <h1>enter code and new password</h1>
                     <input
                         onChange={this.handleChange}
                         name="reset_code"
-                        placeholder="Reset-Code"
+                        placeholder="reset-code"
                         type="text"
                         className="inputbox"
                     />
                     <input
                         onChange={this.handleChange}
                         name="new_password"
-                        placeholder="New Password"
+                        placeholder="new password"
                         type="password"
                         className="inputbox"
                     />
                     <button className="reg-button" onClick={this.newPassword}>
-                        Send
+                        send
                     </button>
                 </div>
             );
         } else if (this.state.view === 3) {
             // remember to also add a link to login ;)
             return (
-                <div>
-                    <h1>YAY! It worked!</h1>
+                <div key="view3">
+                    <h1>YAY! it worked!</h1>
                     <p>
-                        <Link to="/login">Log in</Link>
+                        <Link to="/login">log in</Link>
                     </p>
                 </div>
             );
@@ -112,7 +112,8 @@ export default class Reset extends Component {
                     console.log("reset successful");
                     // update.state
                     // this.setState update
-                    this.setState({ error: false, view: 2 });
+
+                    this.setState({ view: 2 });
                 }
             })
             .catch((error) => {
@@ -120,7 +121,7 @@ export default class Reset extends Component {
                 this.setState({ error: true });
             });
     }
-    newPassword(e) {
+    newPassword() {
         console.log("newPW");
         //register.json
         fetch("/password/reset/verify", {

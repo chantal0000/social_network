@@ -6,7 +6,11 @@ export default function Profile(props) {
     return (
         <div className="center" id="profile">
             <h1>Hey {props.first}, good to see you!</h1>
-            <img id="profile-img" src={props.imageUrl || "/default.png"}></img>
+            <img
+                id="profile-img"
+                src={props.imageUrl}
+                alt={props.first + props.last}
+            ></img>
             <h1>
                 {props.first} {props.last}
             </h1>

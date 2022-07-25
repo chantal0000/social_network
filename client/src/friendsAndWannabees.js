@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
     makeFriend,
     makeUnfriend,
@@ -67,60 +68,70 @@ export default function FriendsAndWannabees() {
     };
 
     return (
-        <section className="flexbox">
+        <section className="center" id="fwannabee">
             <div>
-                <h1>List of friends:</h1>
-                {friends &&
-                    friends.map((friend) => {
-                        return (
-                            <div key={friend.id}>
-                                <img
-                                    src={friend.url || "/default.png"}
-                                    alt={`${friend.first} ${friend.last}`}
-                                />
-
-                                <h2>
-                                    {" "}
-                                    {friend.first} {friend.last}
-                                </h2>
-                                <button
-                                    onClick={() =>
-                                        handleClick(friend.id, "Unfriend")
-                                    }
-                                >
-                                    Unfriend
-                                </button>
-                            </div>
-                        );
-                    })}
+                <h1>YOUR FRIENDS</h1>
+                <div className="friends">
+                    {friends &&
+                        friends.map((friend) => {
+                            return (
+                                <div key={friend.id}>
+                                    <Link to={`user/${friend.id}`}>
+                                        <img
+                                            src={friend.url || "/default.png"}
+                                            alt={`${friend.first} ${friend.last}`}
+                                        />
+                                        <Link to={`user/${friend.id}`}></Link>
+                                        <h2>
+                                            {" "}
+                                            {friend.first} {friend.last}
+                                        </h2>
+                                    </Link>
+                                    <button
+                                        className="reg-button"
+                                        onClick={() =>
+                                            handleClick(friend.id, "Unfriend")
+                                        }
+                                    >
+                                        Unfriend
+                                    </button>
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
             <div>
-                <h1>Friend requests:</h1>
-                {wannabees &&
-                    wannabees.map((wannabee) => {
-                        return (
-                            <div key={wannabee.id}>
-                                <img
-                                    src={wannabee.url || "/default.png"}
-                                    alt={`${wannabee.first} ${wannabee.last}`}
-                                />
-                                <h2>
-                                    {" "}
-                                    {wannabee.first} {wannabee.last}
-                                </h2>
-                                <button
-                                    onClick={() =>
-                                        handleClick(
-                                            wannabee.id,
-                                            "Accept Friend Request"
-                                        )
-                                    }
-                                >
-                                    Accept Friend Request
-                                </button>
-                            </div>
-                        );
-                    })}
+                <h1>FRIEND REQUESTS</h1>
+                <div className="wannabees">
+                    {wannabees &&
+                        wannabees.map((wannabee) => {
+                            return (
+                                <div key={wannabee.id}>
+                                    <Link to={`user/${wannabee.id}`}>
+                                        <img
+                                            src={wannabee.url || "/default.png"}
+                                            alt={`${wannabee.first} ${wannabee.last}`}
+                                        />
+                                        <h2>
+                                            {" "}
+                                            {wannabee.first} {wannabee.last}
+                                        </h2>
+                                    </Link>
+                                    <button
+                                        className="reg-button"
+                                        onClick={() =>
+                                            handleClick(
+                                                wannabee.id,
+                                                "Accept Friend Request"
+                                            )
+                                        }
+                                    >
+                                        accept friend request
+                                    </button>
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
         </section>
     );

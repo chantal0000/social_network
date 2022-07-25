@@ -1,8 +1,9 @@
 import { Component } from "react";
 
 export default class Uploader extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        console.log("props in uploader", props);
+        super(props);
         this.state = {};
         this.handleUpload = this.handleUpload.bind(this);
     }
@@ -21,7 +22,7 @@ export default class Uploader extends Component {
             .then((res) => res.json())
             .then((results) => {
                 // console.log("data from POST / updloader.json", results);
-                // console.log("data in upload", results.data);
+                console.log("data in upload", results.data);
                 this.props.onUrlChange(results.data);
                 this.props.modalCallBack();
             })
@@ -34,16 +35,19 @@ export default class Uploader extends Component {
     render() {
         return (
             <div id="uploader">
-                <h2>UPLOADER for img</h2>
+                <h2 className="closeModal" onClick={this.props.modalCallBack}>
+                    X
+                </h2>
+
                 <form onSubmit={this.handleUpload}>
-                    <h2 onClick={this.props.modalCallBack}>X</h2>
                     <input
                         id="upload-img"
                         name="image"
                         type="file"
                         accept="image/*"
                     ></input>
-                    <button>submit</button>
+
+                    <button className="reg-button">upload new pic</button>
                 </form>
             </div>
         );

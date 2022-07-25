@@ -59,6 +59,7 @@ export default class App extends Component {
             // ! means do the oppposite of the state it is in
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
+        console.log("this state", this.state);
     }
 
     onUrlChange(newUrl) {
@@ -66,7 +67,7 @@ export default class App extends Component {
             "method is running in app and argument is passend:",
             newUrl
         );
-        this.setState({ imageUrl: newUrl, uploaderIsVisible: false });
+        this.setState({ imageUrl: newUrl });
     }
 
     render() {
@@ -74,7 +75,7 @@ export default class App extends Component {
             <div>
                 <BrowserRouter>
                     <section className="headerContainer">
-                        <Logo />
+                        {/* <Logo /> */}
                         <Profilepic
                             first={this.state.first}
                             last={this.state.last}
@@ -84,20 +85,20 @@ export default class App extends Component {
                         <ul className="nav-container">
                             <li>
                                 {" "}
-                                <Link to="/">My Profile</Link>{" "}
+                                <Link to="/">my profile</Link>{" "}
                             </li>
                             <li>
                                 {" "}
-                                <Link to="/find">Find People</Link>{" "}
+                                <Link to="/find">find people</Link>{" "}
                             </li>
 
                             <li>
                                 <Link to="/fwannabees">
-                                    Friends and futute friends
+                                    friends and future friends
                                 </Link>{" "}
                             </li>
                             <li>
-                                <Link to="messages">Messages</Link>
+                                <Link to="messages">messages</Link>
                             </li>
                         </ul>
                     </section>
@@ -138,6 +139,12 @@ export default class App extends Component {
                     <button id="logout-btn">
                         <a href="/logout">Logout</a>
                     </button>
+                    {/* <h2>
+                        {" "}
+                        uploader is uploaderIsVisible
+                        {this.state.uploaderIsVisible == true}
+                        {JSON.stringify(this.state)}
+                    </h2> */}
                 </footer>
             </div>
         );

@@ -26,19 +26,20 @@ export default function FindPeople() {
     }, [searchInput]);
     return (
         <>
-            <section className="flexbox">
-                <h3>Find people</h3>
+            <section className="center" id="findPeople">
+                <h1>FIND PEOPLE</h1>
                 <input
-                    className="search-input"
+                    // className="search-input"
                     placeholder="find friends"
+                    className="inputbox"
                     onChange={(e) => {
                         setSearchInput(e.target.value);
                     }}
                 ></input>
-                <ul>
+                <ul className="list-people">
                     {users?.map((users, i) => {
                         return (
-                            <li className="find-people" key={i}>
+                            <li key={i}>
                                 <Link to={`user/${users.id}`}>
                                     <img
                                         src={users.url || "/default.png"}

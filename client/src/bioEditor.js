@@ -77,18 +77,24 @@ export default class BioEditor extends Component {
                             value={this.state.draftBio}
                             onChange={this.handleBioChange}
                         ></input>
-                        <button onClick={this.submitBio}>save</button>
+                        <button className="reg-button" onClick={this.submitBio}>
+                            save
+                        </button>
                     </div>
                 )}
                 {!this.state.showTextArea && this.props.bio && (
                     <div className="editBio">
                         <h3>{this.props.bio}</h3>
-                        <button onClick={this.editBio}>edit</button>
+                        <button className="reg-button" onClick={this.editBio}>
+                            edit
+                        </button>
                     </div>
                 )}
                 {!this.state.showTextArea && !this.props.bio && (
                     <div className="addBio">
-                        <button onClick={this.editBio}>add your bio</button>
+                        <button className="reg-button" onClick={this.editBio}>
+                            add your bio
+                        </button>
                     </div>
                 )}
             </div>
