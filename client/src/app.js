@@ -11,6 +11,9 @@ import OtherProfile from "./otherProfile";
 import { Provider } from "react-redux";
 import FriendsAndWannabees from "./friendsAndWannabees";
 import Chat from "./chat";
+// import sketch from "./sketch";
+// import P5Wrapper from "react-p5-wrapper";
+// import "./App.css";
 
 export default class App extends Component {
     constructor(props) {
@@ -79,7 +82,7 @@ export default class App extends Component {
                         <Profilepic
                             first={this.state.first}
                             last={this.state.last}
-                            imageUrl={this.state.imageUrl}
+                            imageUrl={this.state.imageUrl || "/default.png"}
                             modalCallback={this.toggleModal}
                         />
                         <ul className="nav-container">
@@ -100,6 +103,9 @@ export default class App extends Component {
                             <li>
                                 <Link to="messages">messages</Link>
                             </li>
+                            {/* <li>
+                                <Link to="sketch">sketch</Link>
+                            </li> */}
                         </ul>
                     </section>
                     <Switch>
@@ -133,18 +139,19 @@ export default class App extends Component {
                         <Route path="/messages">
                             <Chat />
                         </Route>
+                        {/* <div>
+                            <header className="app-header">
+                                <>
+                                    <P5Wrapper sketch={sketch} />
+                                </>
+                            </header>
+                        </div> */}
                     </Switch>
                 </BrowserRouter>
                 <footer>
                     <button id="logout-btn">
                         <a href="/logout">Logout</a>
                     </button>
-                    {/* <h2>
-                        {" "}
-                        uploader is uploaderIsVisible
-                        {this.state.uploaderIsVisible == true}
-                        {JSON.stringify(this.state)}
-                    </h2> */}
                 </footer>
             </div>
         );

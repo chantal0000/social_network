@@ -4,7 +4,7 @@ export default function Profilepic({ first, last, imageUrl, toggleModal }) {
 
     return (
         <div>
-            <h2>This is the Profilepic componet. WHAAAT</h2>
+            {/* <h2>This is the Profilepic componet. WHAAAT</h2> */}
             {/* You need to use the first and last name of the user as the value of
             the alt attribute */}
             <img

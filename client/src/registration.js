@@ -92,10 +92,10 @@ export default class Registration extends Component {
                     className="inputbox"
                 ></input>
                 <button onClick={this.handleSubmit} className="reg-button">
-                    Register
+                    register
                 </button>
                 <p>
-                    already a member? <Link to="/login">Log in</Link>
+                    already a member? <Link to="/login">log in</Link>
                 </p>
             </div>
         );

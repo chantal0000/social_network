@@ -193,6 +193,7 @@ li {
 .container-chat {
     overflow: auto;
     display: flex;
+    margin: 10px;
     flex-direction: column-reverse;
     /* background-color: antiquewhite; */
     height: 150px;

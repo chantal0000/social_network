@@ -54,7 +54,10 @@ export default function OtherProfile() {
                     <h1>
                         {user.first} {user.last}
                     </h1>
-                    <img src={user.url} alt={`${user.first} ${user.last}`} />
+                    <img
+                        src={user.url || "/default.png"}
+                        alt={`${user.first} ${user.last}`}
+                    />
                     <FriendButton otherUserId={otherUserId} />
                     <h3>{user.bio}</h3>
                 </div>

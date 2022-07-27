@@ -8,7 +8,7 @@ export default function Profile(props) {
             <h1>Hey {props.first}, good to see you!</h1>
             <img
                 id="profile-img"
-                src={props.imageUrl}
+                src={props.imageUrl || "/default.png"}
                 alt={props.first + props.last}
             ></img>
             <h1>

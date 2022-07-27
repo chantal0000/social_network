@@ -98,16 +98,6 @@ export default class BioEditor extends Component {
                     </div>
                 )}
             </div>
-            //  Do your rendering logic in here!
-            // It all depends on whether you are on edit more or not.
-            // Whenever they click on the add or edit button, you are on edit mode - show the text area!
-
-            // If showTextArea is true, then render the text area with a button that says save / submit
-            // If you're not adding or editing a bio, then you should NOT see the text area
-            // If you're NOT in edit mode, THEN check to see if there is a bio!
-
-            // if there is a bio, allow them to EDIT a bio!
-            // if there is NO bio, allow them to ADD a bio!
         );
     }
 }

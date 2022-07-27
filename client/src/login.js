@@ -77,7 +77,7 @@ export default class Login extends Component {
                     className="inputbox"
                 ></input>
                 <button onClick={this.handleSubmit} className="reg-button">
-                    Log in
+                    log in
                 </button>
                 <p>
                     not a member? <Link to="/">register</Link>
